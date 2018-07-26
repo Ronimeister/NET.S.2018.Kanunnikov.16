@@ -176,5 +176,13 @@ namespace BinaryCollections.Test
             return tree.Contains(number);
         }
         #endregion
+
+        #region Book tests
+        //will be added soon
+        #endregion
+
+        #region Point tests
+        //will be added soon
+        #endregion
     }
 }
