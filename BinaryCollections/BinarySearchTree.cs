@@ -4,6 +4,10 @@ using System.Linq;
 
 namespace BinaryCollections
 {
+    /// <summary>
+    /// Class that provides binary search tree representation
+    /// </summary>
+    /// <typeparam name="T">Needed node type</typeparam>
     public class BinarySearchTree <T>
     {
         #region Private fields
@@ -12,26 +16,38 @@ namespace BinaryCollections
         #endregion
 
         #region Properties
+        /// <summary>
+        /// Represent current amount of not-default nodes in tree
+        /// </summary>
         public int Count { get; private set; }
         #endregion
 
         #region .ctors
+        /// <summary>
+        /// Constructor for <see cref="BinarySearchTree{T}"/>
+        /// </summary>
         public BinarySearchTree()
         {
             _comparer = Comparer<T>.Default.Compare;
         }
 
+        /// <summary>
+        /// Constructor for <see cref="BinarySearchTree{T}"/>
+        /// </summary>
+        /// <param name="collection">Input <see cref="IEnumerable{T}"/> collection</param>
+        /// <exception cref="ArgumentNullException">Throws when <paramref name="collection"/> is equal to null</exception>
+        /// <exception cref="ArgumentException">Throws when <paramref name="collection"/> is empty</exception>
         public BinarySearchTree(IEnumerable<T> collection)
         {
-            if (collection == null)
-            {
-                throw new ArgumentNullException($"{nameof(collection)} can't be equal to null!");
-            }
-
             _comparer = Comparer<T>.Default.Compare;
             InsertRange(collection);
         }
 
+        /// <summary>
+        /// Constructor for <see cref="BinarySearchTree{T}"/>
+        /// </summary>
+        /// <param name="comparer">Needed <see cref="Comparer{T}"/> elements comparer</param>
+        /// <exception cref="ArgumentNullException">Throws when <paramref name="comparer"/> is equal to null</exception>
         public BinarySearchTree(Comparer<T> comparer)
         {
             if (comparer == null)
@@ -42,13 +58,18 @@ namespace BinaryCollections
             _comparer = comparer.Compare;
         }
 
+        /// <summary>
+        /// Constructor for <see cref="BinarySearchTree{T}"/>
+        /// </summary>
+        /// <param name="collection">Input <see cref="IEnumerable{T}"/> collection</param>
+        /// <param name="comparer">Needed <see cref="Comparer{T}"/> elements comparer</param>
+        /// <exception cref="ArgumentNullException">Throws when:
+        /// 1) <paramref name="collection"/> is equal to null
+        /// 2) <paramref name="comparer"/> is equal to null
+        /// </exception>
+        /// <exception cref="ArgumentException">Throws when <paramref name="collection"/> is empty</exception>
         public BinarySearchTree(IEnumerable<T> collection,Comparer<T> comparer)
         {
-            if (collection == null)
-            {
-                throw new ArgumentNullException($"{nameof(collection)} can't be equal to null!");
-            }
-
             if (comparer == null)
             {
                 throw new ArgumentNullException($"{nameof(comparer)} can't be equal to null!");
@@ -60,11 +81,20 @@ namespace BinaryCollections
         #endregion
 
         #region Public API
+        /// <summary>
+        /// Clear binary search tree
+        /// </summary>
         public void Clear()
         {
             _node = null;
         }
 
+        /// <summary>
+        /// Check if this tree contains <paramref name="value"/>
+        /// </summary>
+        /// <param name="value">Needed value</param>
+        /// <returns>bool search result</returns>
+        /// <exception cref="ArgumentNullException">Throws when <paramref name="value"/> is equal to null</exception>
         public bool Contains(T value)
         {
             if (value == null)
@@ -75,8 +105,17 @@ namespace BinaryCollections
             return ContainsInner(value);
         }
 
+        /// <summary>
+        /// Return InOrder representation of tree
+        /// </summary>
+        /// <returns>InOrder representation of tree</returns>
         public IEnumerable<T> InOrder() => InOrderInner(_node);
 
+        /// <summary>
+        /// Insert <paramref name="value"/> in tree
+        /// </summary>
+        /// <param name="value">Inserted value</param>
+        /// <exception cref="ArgumentNullException">Throws when <paramref name="value"/> is equal to null</exception>
         public void Insert(T value)
         {
             if (value == null)
@@ -94,6 +133,12 @@ namespace BinaryCollections
             InnerInsert(_node, value);
         }
 
+        /// <summary>
+        /// Insert <paramref name="collection"/> of <see cref="T"/> in tree
+        /// </summary>
+        /// <param name="collection">collection of <see cref="T"/> values needed to be inserted</param>
+        /// <exception cref="ArgumentNullException">Throws when <paramref name="collection"/> is equal to null</exception>
+        /// <exception cref="ArgumentException">Throws when <paramref name="collection"/> is empty</exception>
         public void InsertRange(IEnumerable<T> collection)
         {
             if (collection == null)
@@ -112,8 +157,16 @@ namespace BinaryCollections
             }
         }
 
+        /// <summary>
+        /// Return PostOrder representation of tree
+        /// </summary>
+        /// <returns>PostOrder representation of tree</returns>
         public IEnumerable<T> PostOrder() => PostOrderInner(_node);
 
+        /// <summary>
+        /// Return PreOrder representation of tree
+        /// </summary>
+        /// <returns>PreOrder representation of tree</returns>
         public IEnumerable<T> PreOrder() => PreOrderInner(_node);
         #endregion
 
@@ -240,6 +293,10 @@ namespace BinaryCollections
         }
         #endregion
 
+        /// <summary>
+        /// Helper class representing tree node
+        /// </summary>
+        /// <typeparam name="T">Needed type of the values</typeparam>
         internal sealed class Node <T>
         {
             public Node<T> Left { get; set; }
