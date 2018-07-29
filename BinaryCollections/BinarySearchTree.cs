@@ -108,6 +108,7 @@ namespace BinaryCollections
         /// <summary>
         /// Return InOrder representation of tree
         /// </summary>
+        /// <exception cref="ArgumentNullException">Throws when tree is empty</exception>
         /// <returns>InOrder representation of tree</returns>
         public IEnumerable<T> InOrder() => InOrderInner(_node);
 
@@ -160,12 +161,14 @@ namespace BinaryCollections
         /// <summary>
         /// Return PostOrder representation of tree
         /// </summary>
+        /// <exception cref="ArgumentNullException">Throws when tree is empty</exception>
         /// <returns>PostOrder representation of tree</returns>
         public IEnumerable<T> PostOrder() => PostOrderInner(_node);
 
         /// <summary>
         /// Return PreOrder representation of tree
         /// </summary>
+        /// <exception cref="ArgumentNullException">Throws when tree is empty</exception>
         /// <returns>PreOrder representation of tree</returns>
         public IEnumerable<T> PreOrder() => PreOrderInner(_node);
         #endregion
@@ -208,6 +211,11 @@ namespace BinaryCollections
 
         private IEnumerable<T> InOrderInner(Node<T> node)
         {
+            if (node == null)
+            {
+                throw new ArgumentNullException($"{nameof(node)} can't be equal to null!");
+            }
+
             if (node.Left != null)
             {
                 foreach(var n in InOrderInner(node.Left))
@@ -252,6 +260,11 @@ namespace BinaryCollections
 
         private IEnumerable<T> PostOrderInner(Node<T> node)
         {
+            if (node == null)
+            {
+                throw new ArgumentNullException($"{nameof(node)} can't be equal to null!");
+            }
+
             if (node.Left != null)
             {
                 foreach (var n in InOrderInner(node.Left))
@@ -273,6 +286,11 @@ namespace BinaryCollections
 
         private IEnumerable<T> PreOrderInner(Node<T> node)
         {
+            if (node == null)
+            {
+                throw new ArgumentNullException($"{nameof(node)} can't be equal to null!");
+            }
+
             yield return node.Data;
 
             if (node.Left != null)

@@ -1,10 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using NUnit.Framework;
-using BinaryCollections;
 
 namespace BinaryCollections.Test
 {
@@ -178,7 +173,92 @@ namespace BinaryCollections.Test
         #endregion
 
         #region Book tests
-        //will be added soon
+        [Test]
+        public void BinarySearchTree_DifferentCtor_Book_IsCorrect()
+        {
+            BinarySearchTree<Book> actual = new BinarySearchTree<Book>();
+            Book[] books = { new Book(1), new Book(2) };
+            actual.InsertRange(books);
+            BinarySearchTree<Book> expected = new BinarySearchTree<Book>(books);
+            CollectionAssert.AreEqual(expected.InOrder(), actual.InOrder());
+        }
+
+        [Test]
+        public void BinarySearchTree_Book_DefaultComparer_InOrder_IsCorrect()
+        {
+            Book[] books = { new Book(1), new Book(2), new Book(3), new Book(4) };
+            BinarySearchTree<Book> tree = new BinarySearchTree<Book>(books);
+            CollectionAssert.AreEqual(books, tree.InOrder());
+        }
+
+        [Test]
+        public void BinarySearchTree_Book_CustomComparer_InOrder_IsCorrect()
+        {
+            int compare(Book a, Book b)
+            {
+                if (a.Cost > b.Cost) return 1;
+                if (a.Cost < b.Cost) return -1;
+                return 0;
+            }
+            Book[] books = { new Book(1), new Book(2), new Book(3), new Book(4) };
+            BinarySearchTree<Book> tree = new BinarySearchTree<Book>(books, Comparer<Book>.Create(compare));
+            CollectionAssert.AreEqual(books, tree.InOrder());
+        }
+
+        [Test]
+        public void BinarySearchTree_Book_DefaultComparer_PreOrder_IsCorrect()
+        {
+            Book[] books = { new Book(1), new Book(2), new Book(3), new Book(4) };
+            BinarySearchTree<Book> tree = new BinarySearchTree<Book>(books);
+            CollectionAssert.AreEqual(books, tree.PreOrder());
+        }
+
+        [Test]
+        public void BinarySearchTree_Book_CustomComparer_PreOrder_IsCorrect()
+        {
+            int compare(Book a, Book b)
+            {
+                if (a.Cost > b.Cost) return 1;
+                if (a.Cost < b.Cost) return -1;
+                return 0;
+            }
+            Book[] books = { new Book(1), new Book(2), new Book(3), new Book(4) };
+            BinarySearchTree<Book> tree = new BinarySearchTree<Book>(books, Comparer<Book>.Create(compare));
+            CollectionAssert.AreEqual(books, tree.PreOrder());
+        }
+
+        [Test]
+        public void BinarySearchTree_Book_DefaultComparer_PostOrder_IsCorrect()
+        {
+            Book[] books = { new Book(1), new Book(2), new Book(3), new Book(4) };
+            BinarySearchTree<Book> tree = new BinarySearchTree<Book>(books);
+            CollectionAssert.AreEqual(new Book[] { books[1], books[2], books[3], books[0] }, tree.PostOrder());
+        }
+
+        [Test]
+        public void BinarySearchTree_Book_CustomComparer_PostOrder_IsCorrect()
+        {
+            int compare(Book a, Book b)
+            {
+                if (a.Cost > b.Cost) return 1;
+                if (a.Cost < b.Cost) return -1;
+                return 0;
+            }
+            Book[] books = { new Book(1), new Book(2), new Book(3), new Book(4) };
+            BinarySearchTree<Book> tree = new BinarySearchTree<Book>(books, Comparer<Book>.Create(compare));
+            CollectionAssert.AreEqual(new Book[] { books[1], books[2], books[3], books[0] }, tree.PostOrder());
+        }
+
+        [TestCase(3, ExpectedResult = true)]
+        [TestCase(0, ExpectedResult = false)]
+        public bool BinarySearchTree_Book_Contains_IsCorrect(int data)
+        {
+            Book searched = new Book(data);
+            Book[] books = { new Book(1), new Book(2), new Book(3), new Book(4) };
+            BinarySearchTree<Book> tree = new BinarySearchTree<Book>(books);
+
+            return tree.Contains(searched);
+        }
         #endregion
 
         #region Point tests
